@@ -1,0 +1,19 @@
+class Solution {
+  public:
+    long long totalSubarrays(int n, int x, vector<int> &a) {
+        long long ans=0;
+        for(int i=0;i<n;i++)
+        {
+            int first=a[i];
+            for(int j=i;j<n;j++)
+            {
+                first=first&a[j];
+                if(first==x)
+                ans++;
+                else if(first==0){
+                break;}
+            }
+        }
+        return ans;
+    }
+};
