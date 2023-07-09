@@ -1,0 +1,48 @@
+const int mod=1e9+7;
+int memo[205][205][12][2];
+class Solution{
+public:
+    int dp(int idx,int n,int k, string &s,int cn,int p,int last){
+        if(idx>=n and cn==0 and p<=k) 
+        return 1;
+        if(idx>=n or p>k or cn<0) 
+        return 0;
+        if(memo[idx][cn][p][last]!=-1) 
+        return memo[idx][cn][p][last];
+        long long x=0;
+        if(s[idx]!='?'){
+            if(last==s[idx]-'('){
+                if(s[idx]=='(') 
+                x+=dp(idx+1,n,k,s,cn+1,p+1,last);
+                else 
+                x+=dp(idx+1,n,k,s,cn-1,p+1,last);
+            }
+            else{
+                if(s[idx]=='(') 
+                x+=dp(idx+1,n,k,s,cn+1,1,1-last);
+                else 
+                x+=dp(idx+1,n,k,s,cn-1,1,1-last);
+            }
+        }
+        else{
+            if(last==0){
+                x+=dp(idx+1,n,k,s,cn+1,p+1,last);
+                x%=mod;
+                x+=dp(idx+1,n,k,s,cn-1,1,1-last);
+               x%=mod;
+            }
+            else{
+                x+=dp(idx+1,n,k,s,cn-1,p+1,last);
+                x%=mod;
+                x+=dp(idx+1,n,k,s,cn+1,1,1-last);
+                x%=mod;
+            }
+        }
+        x%=mod;
+        return memo[idx][cn][p][last]=x;
+    }
+    int countStrings(int n,string &s,int k){
+        memset(memo,-1,sizeof memo);
+        return dp(0,n,k,s,0,0,0);
+    }
+};
