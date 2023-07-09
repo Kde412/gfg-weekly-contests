@@ -1,0 +1,23 @@
+class Solution {
+  public:
+    int separateStones(int N, int k, vector<int> &arr) {
+        int c1=0,w1=0;
+        for(int i=0;i<N;i++)
+        {
+            if(arr[i]==0)
+            w1++;
+            else
+            c1++;
+        }
+        int ans=0;
+        if(w1%k==0)
+        ans+=w1/k;
+        else
+        ans+=(w1/k)+1;
+        if(c1%k==0)
+        ans+=c1/k;
+        else
+        ans+=(c1/k)+1;
+        return ans;
+    }
+};
